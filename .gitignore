@@ -5,3 +5,4 @@ riderModule.iml
 /_ReSharper.Caches/
 .idea/
 JustAnotherNotesApp.sln.DotSettings.user
+*.user

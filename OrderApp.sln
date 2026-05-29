@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApp.Api", "src\OrderAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApp.Data", "src\OrderApp.Data\OrderApp.Data.csproj", "{87DC7220-6DE6-49CB-8308-81F90F4C2C54}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderApp.Query.Tests", "tests\OrderApp.Query.Tests\OrderApp.Query.Tests.csproj", "{603841E1-FEA7-45DE-B071-0BA648AA9587}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,7 @@ Global
 		{B8A64E66-19E5-4CAA-B947-36C95CA54998} = {F57BA9B7-F479-4A00-A4FD-2360474AE651}
 		{C8759D5B-0341-48C2-8DDD-F246E52E37ED} = {F57BA9B7-F479-4A00-A4FD-2360474AE651}
 		{87DC7220-6DE6-49CB-8308-81F90F4C2C54} = {F57BA9B7-F479-4A00-A4FD-2360474AE651}
+		{603841E1-FEA7-45DE-B071-0BA648AA9587} = {C09879D2-7F7F-455C-9D44-552ECBC03C0E}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B8A64E66-19E5-4CAA-B947-36C95CA54998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -33,5 +36,9 @@ Global
 		{87DC7220-6DE6-49CB-8308-81F90F4C2C54}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87DC7220-6DE6-49CB-8308-81F90F4C2C54}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87DC7220-6DE6-49CB-8308-81F90F4C2C54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{603841E1-FEA7-45DE-B071-0BA648AA9587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{603841E1-FEA7-45DE-B071-0BA648AA9587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{603841E1-FEA7-45DE-B071-0BA648AA9587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{603841E1-FEA7-45DE-B071-0BA648AA9587}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

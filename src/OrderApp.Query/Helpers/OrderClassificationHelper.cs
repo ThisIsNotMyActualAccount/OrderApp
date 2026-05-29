@@ -9,8 +9,8 @@ public class OrderClassificationHelper(IOptions<OrderClassificationConfiguration
     private static readonly List<OrderClassificationTier> DefaultTiers =
     [
         new() { MinimumAmount = 0,   MaximumAmount = 49.99, Classification = "LOW" },
-        new() { MinimumAmount = 50,  MaximumAmount = 99.99, Classification = "MEDIUM" },
-        new() { MinimumAmount = 100, MaximumAmount = null,  Classification = "HIGH" },
+        new() { MinimumAmount = 50,  MaximumAmount = 100, Classification = "MEDIUM" },
+        new() { MinimumAmount = 100.01, MaximumAmount = null,  Classification = "HIGH" },
     ];
     
     private readonly List<OrderClassificationTier> validTiers = IsValidConfig(orderClassificationConfiguration.Value)
