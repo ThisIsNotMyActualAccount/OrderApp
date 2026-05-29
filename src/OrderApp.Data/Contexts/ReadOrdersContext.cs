@@ -3,6 +3,10 @@ using OrderApp.Data.Interfaces;
 
 namespace OrderApp.Data.Contexts;
 
+/// <summary>
+/// A concrete implementation of the <see cref="IReadOrdersDb"/> interface.
+/// </summary>
+/// <param name="ordersRepository">The order repository.</param>
 public class ReadOrdersContext(OrdersRepository ordersRepository) : IReadOrdersDb
 {
     /// <inheritdoc />
@@ -15,7 +19,7 @@ public class ReadOrdersContext(OrdersRepository ordersRepository) : IReadOrdersD
         
         var orderDetails = new OrderDetailsDto(
             order.CustomerId,
-            order.Items.Select(i => new OrderItemsDto(i.Sku, i.Quantity, i.Price)).ToArray(),
+            order.Items.Select(orderItem => new OrderItemsDto(orderItem.Sku, orderItem.Quantity, orderItem.Price)).ToArray(),
             order.Total,
             order.Classification
         );

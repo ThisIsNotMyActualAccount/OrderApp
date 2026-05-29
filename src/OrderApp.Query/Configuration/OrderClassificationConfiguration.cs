@@ -5,5 +5,8 @@ namespace OrderApp.Query.Configuration;
 /// </summary>
 public class OrderClassificationConfiguration
 {
+    /// <summary>
+    /// The tiers for the order classification.
+    /// </summary>
     public List<OrderClassificationTier> Tiers { get; set; } = new();
 }
