@@ -11,16 +11,10 @@ public partial class GetOrderRequestHandler(ILogger<GetOrderRequestHandler> logg
     public async Task<GetOrderResponse> Handle(GetOrderRequest request, CancellationToken cancellationToken)
     {
         LogGetOrderHandlerCalled(request.OrderId);
-        
-        if (!int.TryParse(request.OrderId, out var orderId))
-        {
-            LogOrderIdNotInteger(request.OrderId);
-            return new GetOrderResponse(null);
-        }
 
         try
         {
-            return new GetOrderResponse(await readOrdersDb.GetOrder(orderId).ConfigureAwait(false));
+            return new GetOrderResponse(await readOrdersDb.GetOrder(request.OrderId).ConfigureAwait(false));
         }
         catch (Exception e)
         {
@@ -30,11 +24,8 @@ public partial class GetOrderRequestHandler(ILogger<GetOrderRequestHandler> logg
     }
     
     [LoggerMessage(LogLevel.Information, "Handling GetOrderRequest for order: {OrderId}")]
-    partial void LogGetOrderHandlerCalled(string orderId);
-    
-    [LoggerMessage(LogLevel.Warning, "Order identifier does not translate to an integer: {OrderId}")]
-    partial void LogOrderIdNotInteger(string orderId);
+    partial void LogGetOrderHandlerCalled(int orderId);
     
     [LoggerMessage(LogLevel.Error, "Error collecting order: {OrderId}")]
-    partial void ErrorCollectingOrder(string orderId, Exception exception);
+    partial void ErrorCollectingOrder(int orderId, Exception exception);
 }

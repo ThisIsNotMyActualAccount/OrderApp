@@ -7,4 +7,4 @@ namespace OrderApp.Api.Requests;
 /// The request for creating an order.
 /// </summary>
 /// <param name="OrderId">The order identifier.</param>
-public sealed record GetOrderRequest(string OrderId): IRequest<GetOrderResponse>;
+public sealed record GetOrderRequest(int OrderId): IRequest<GetOrderResponse>;

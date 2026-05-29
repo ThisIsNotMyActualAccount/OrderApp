@@ -38,7 +38,12 @@ app.MapPost("/orders", async (IMediator mediatr, [FromBody]CreateOrderRequest re
 
 app.MapGet("/orders/{orderId}", async (IMediator mediatr, string orderId) =>
     {
-        var getOrderResponse = await mediatr.Send(new GetOrderRequest(orderId)).ConfigureAwait(false);
+        if (!int.TryParse(orderId, out var orderIdAsInt))
+        {
+            return Results.BadRequest($"Order ID '{orderId}' is not valid.");
+        }
+        
+        var getOrderResponse = await mediatr.Send(new GetOrderRequest(orderIdAsInt)).ConfigureAwait(false);
         
         return getOrderResponse.OrderDetails is not null
             ? Results.Ok(getOrderResponse)
