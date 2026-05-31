@@ -7,6 +7,12 @@ using OrderApp.Query.Helpers;
 
 namespace OrderApp.Query.Handlers.Commands;
 
+/// <summary>
+/// Handles the <see cref="CreateOrderRequest"/> request and calculates the details for the order before saving.
+/// </summary>
+/// <param name="logger">The logger.</param>
+/// <param name="writeOrdersDb">The write orders interface.</param>
+/// <param name="orderClassificationHelper">The helper for order classification.</param>
 public partial class CreateOrderRequestHandler(
     ILogger<CreateOrderRequestHandler> logger,
     IWriteOrdersDb writeOrdersDb,

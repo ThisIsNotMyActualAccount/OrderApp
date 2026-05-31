@@ -5,6 +5,11 @@ using OrderApp.Data.Interfaces;
 
 namespace OrderApp.Query.Handlers.Queries;
 
+/// <summary>
+/// Handles the <see cref="GetOrderRequest"/> request and collects the relevant order from the database.
+/// </summary>
+/// <param name="logger">The logger.</param>
+/// <param name="readOrdersDb">The read orders interface.</param>
 public partial class GetOrderRequestHandler(ILogger<GetOrderRequestHandler> logger, IReadOrdersDb readOrdersDb)
     : IRequestHandler<GetOrderRequest, GetOrderResponse>
 {

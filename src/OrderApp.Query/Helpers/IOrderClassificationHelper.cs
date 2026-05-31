@@ -1,5 +1,8 @@
 namespace OrderApp.Query.Helpers;
 
+/// <summary>
+/// Offers helper methods for order classification.
+/// </summary>
 public interface IOrderClassificationHelper
 {
     /// <summary>

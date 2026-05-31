@@ -1,6 +1,3 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using OrderApp.Api.Requests;
 using OrderApp.Data.Extensions;
 using OrderApp.Query.Extensions;
 
@@ -25,30 +22,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapPost("/orders", async (IMediator mediatr, [FromBody]CreateOrderRequest request) =>
-    {
-        var createOrderResponse = await mediatr.Send(request).ConfigureAwait(false);
-        
-        return !string.IsNullOrWhiteSpace(createOrderResponse.OrderId)
-            ? Results.Created($"/orders/{createOrderResponse.OrderId}", createOrderResponse)
-            : Results.Problem("An error occurred while creating the order.");
-    })
-    .WithName("CreateOrder");
-
-app.MapGet("/orders/{orderId}", async (IMediator mediatr, string orderId) =>
-    {
-        if (!int.TryParse(orderId, out var orderIdAsInt))
-        {
-            return Results.BadRequest($"Order ID '{orderId}' is not valid.");
-        }
-        
-        var getOrderResponse = await mediatr.Send(new GetOrderRequest(orderIdAsInt)).ConfigureAwait(false);
-        
-        return getOrderResponse.OrderDetails is not null
-            ? Results.Ok(getOrderResponse)
-            : Results.NotFound($"Order {orderId} was not found.");
-    })
-    .WithName("GetOrder");
-
+app.RegisterMinimalApiEndpoints();
 app.Run();
