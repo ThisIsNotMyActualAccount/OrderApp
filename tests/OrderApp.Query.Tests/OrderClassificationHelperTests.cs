@@ -20,7 +20,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_WithLowTotal_ReturnsLow()
     {
         // Act
-        var result = _helper.GetOrderClassification(25.00);
+        var result = _helper.GetOrderClassification(25.00m);
 
         // Assert
         Assert.That(result, Is.EqualTo("LOW"));
@@ -30,7 +30,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_WithMediumTotal_ReturnsMedium()
     {
         // Act
-        var result = _helper.GetOrderClassification(75.00);
+        var result = _helper.GetOrderClassification(75.00m);
 
         // Assert
         Assert.That(result, Is.EqualTo("MEDIUM"));
@@ -40,7 +40,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_WithHighTotal_ReturnsHigh()
     {
         // Act
-        var result = _helper.GetOrderClassification(150.00);
+        var result = _helper.GetOrderClassification(150.00m);
 
         // Assert
         Assert.That(result, Is.EqualTo("HIGH"));
@@ -50,7 +50,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_AtBoundary_LowMax_ReturnsLow()
     {
         // Arrange - 49.99 is the max for LOW
-        const double total = 49.99;
+        const decimal total = 49.99m;
 
         // Act
         var result = _helper.GetOrderClassification(total);
@@ -63,7 +63,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_AtBoundary_MediumMin_ReturnsMedium()
     {
         // Arrange - 50 is the min for MEDIUM
-        const double total = 50.00;
+        const decimal total = 50.00m;
 
         // Act
         var result = _helper.GetOrderClassification(total);
@@ -75,8 +75,8 @@ public class OrderClassificationHelperTests
     [Test]
     public void GetOrderClassification_AtBoundary_MediumMax_ReturnsMedium()
     {
-        // Arrange - 99.99 is the max for MEDIUM in defaults
-        const double total = 99.99;
+        // Arrange - 100 is the max for MEDIUM in defaults
+        const decimal total = 100.00m;
 
         // Act
         var result = _helper.GetOrderClassification(total);
@@ -89,7 +89,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_AtBoundary_HighMin_ReturnsHigh()
     {
         // Arrange - 100.01 is the min for HIGH in defaults
-        const double total = 100.01;
+        const decimal total = 100.01m;
 
         // Act
         var result = _helper.GetOrderClassification(total);
@@ -112,7 +112,7 @@ public class OrderClassificationHelperTests
     public void GetOrderClassification_WithVeryLargeAmount_ReturnsHigh()
     {
         // Act
-        var result = _helper.GetOrderClassification(999999.99);
+        var result = _helper.GetOrderClassification(999999.99m);
 
         // Assert
         Assert.That(result, Is.EqualTo("HIGH"));
@@ -135,7 +135,7 @@ public class OrderClassificationHelperTests
         var helper = new OrderClassificationHelper(options);
 
         // Act
-        var result = helper.GetOrderClassification(75.00);
+        var result = helper.GetOrderClassification(75.00m);
 
         // Assert - Should fall back to defaults
         Assert.That(result, Is.EqualTo("MEDIUM"));
@@ -153,7 +153,7 @@ public class OrderClassificationHelperTests
         var helper = new OrderClassificationHelper(options);
 
         // Act
-        var result = helper.GetOrderClassification(75.00);
+        var result = helper.GetOrderClassification(75.00m);
 
         // Assert - Should fall back to defaults
         Assert.That(result, Is.EqualTo("MEDIUM"));
@@ -168,15 +168,15 @@ public class OrderClassificationHelperTests
             Tiers =
             [
                 new OrderClassificationTier { MinimumAmount = 0, MaximumAmount = 100, Classification = "BASIC" },
-                new OrderClassificationTier { MinimumAmount = 100.01, MaximumAmount = null, Classification = "PREMIUM" }
+                new OrderClassificationTier { MinimumAmount = 100.01m, MaximumAmount = null, Classification = "PREMIUM" }
             ]
         };
         var options = Options.Create(customConfig);
         var helper = new OrderClassificationHelper(options);
 
         // Act
-        var lowResult = helper.GetOrderClassification(50.00);
-        var highResult = helper.GetOrderClassification(150.00);
+        var lowResult = helper.GetOrderClassification(50.00m);
+        var highResult = helper.GetOrderClassification(150.00m);
 
         Assert.Multiple(() =>
         {
@@ -197,23 +197,27 @@ public class OrderClassificationHelperTests
         var helper = new OrderClassificationHelper(options);
 
         // Act
-        var result = helper.GetOrderClassification(75.00); // Doesn't match any tier
+        var result = helper.GetOrderClassification(75.00m); // Doesn't match any tier
 
         // Assert
         Assert.That(result, Is.EqualTo("UNKNOWN"));
     }
 
-    [Test]
-    [TestCase(0.01, "LOW")]
-    [TestCase(25.50, "LOW")]
-    [TestCase(49.99, "LOW")]
-    [TestCase(50.00, "MEDIUM")]
-    [TestCase(75.00, "MEDIUM")]
-    [TestCase(100.00, "MEDIUM")]
-    [TestCase(100.01, "HIGH")]
-    [TestCase(500.00, "HIGH")]
-    [TestCase(1000.00, "HIGH")]
-    public void GetOrderClassification_VariousAmounts_ReturnsCorrectClassification(double total, string expected)
+    private static readonly object[] ClassificationCases =
+    [
+        new object[] { 0.01m, "LOW" },
+        new object[] { 25.50m, "LOW" },
+        new object[] { 49.99m, "LOW" },
+        new object[] { 50.00m, "MEDIUM" },
+        new object[] { 75.00m, "MEDIUM" },
+        new object[] { 100.00m, "MEDIUM" },
+        new object[] { 100.01m, "HIGH" },
+        new object[] { 500.00m, "HIGH" },
+        new object[] { 1000.00m, "HIGH" }
+    ];
+
+    [TestCaseSource(nameof(ClassificationCases))]
+    public void GetOrderClassification_VariousAmounts_ReturnsCorrectClassification(decimal total, string expected)
     {
         // Act
         var result = _helper.GetOrderClassification(total);

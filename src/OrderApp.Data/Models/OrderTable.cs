@@ -18,7 +18,7 @@ public class OrderTable
     /// <summary>
     /// The total price of everything in the order.
     /// </summary>
-    public double Total { get; set; }
+    public decimal Total { get; set; }
     
     /// <summary>
     /// The classification of the order.

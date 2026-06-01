@@ -8,12 +8,12 @@ public class OrderClassificationTier
     /// <summary>
     /// The minimum value for this tier.
     /// </summary>
-    public double MinimumAmount { get; set; }
+    public decimal MinimumAmount { get; set; }
     
     /// <summary>
     /// The maximum value for this tier, null if there is no maximum (i.e. this is the last tier).
     /// </summary>
-    public double? MaximumAmount { get; set; }
+    public decimal? MaximumAmount { get; set; }
     
     /// <summary>
     /// The name for the classification.

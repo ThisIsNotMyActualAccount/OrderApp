@@ -30,8 +30,8 @@ public class GetOrderRequestHandlerTests
         var request = new GetOrderRequest(orderId);
         var expectedOrder = new OrderDetailsDto(
             "CUST123",
-            [new OrderItemsDto("SKU001", 2, 25.00)],
-            50.00,
+            [new OrderItemsDto("SKU001", 2, 25.00m)],
+            50.00m,
             "LOW"
         );
 
@@ -46,7 +46,7 @@ public class GetOrderRequestHandlerTests
         Assert.Multiple(() =>
         {
             Assert.That(result.OrderDetails.CustomerId, Is.EqualTo("CUST123"));
-            Assert.That(result.OrderDetails.Total, Is.EqualTo(50.00));
+            Assert.That(result.OrderDetails.Total, Is.EqualTo(50.00m));
             Assert.That(result.OrderDetails.Classification, Is.EqualTo("LOW"));
             Assert.That(result.OrderDetails.Items, Has.Length.EqualTo(1));
         });
@@ -117,11 +117,11 @@ public class GetOrderRequestHandlerTests
         var request = new GetOrderRequest(orderId);
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 1, 10.00),
-            new OrderItemsDto("SKU002", 2, 20.00),
-            new OrderItemsDto("SKU003", 3, 30.00)
+            new OrderItemsDto("SKU001", 1, 10.00m),
+            new OrderItemsDto("SKU002", 2, 20.00m),
+            new OrderItemsDto("SKU003", 3, 30.00m)
         };
-        var expectedOrder = new OrderDetailsDto("CUST123", items, 140.00, "HIGH");
+        var expectedOrder = new OrderDetailsDto("CUST123", items, 140.00m, "HIGH");
 
         _mockReadOrdersDb.Setup(x => x.GetOrder(orderId))
             .ReturnsAsync(expectedOrder);
@@ -147,8 +147,8 @@ public class GetOrderRequestHandlerTests
         var request = new GetOrderRequest(orderId);
         var expectedOrder = new OrderDetailsDto(
             "CUST123",
-            [new OrderItemsDto("SKU001", 1, 150.00)],
-            150.00,
+            [new OrderItemsDto("SKU001", 1, 150.00m)],
+            150.00m,
             "HIGH"
         );
 

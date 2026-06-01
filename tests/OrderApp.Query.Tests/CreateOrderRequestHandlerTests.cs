@@ -33,12 +33,12 @@ public class CreateOrderRequestHandlerTests
         const string customerId = "CUST123";
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 2, 25.00),
-            new OrderItemsDto("SKU002", 1, 50.00)
+            new OrderItemsDto("SKU001", 2, 25.00m),
+            new OrderItemsDto("SKU002", 1, 50.00m)
         };
         var request = new CreateOrderRequest(customerId, items);
         const int expectedOrderId = 1;
-        const double expectedTotal = 100.00;
+        const decimal expectedTotal = 100.00m;
         const string expectedClassification = "MEDIUM";
 
         _mockClassificationHelper.Setup(x => x.GetOrderClassification(expectedTotal))
@@ -68,12 +68,12 @@ public class CreateOrderRequestHandlerTests
         const string customerId = "CUST123";
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 3, 10.50),
-            new OrderItemsDto("SKU002", 2, 15.75)
+            new OrderItemsDto("SKU001", 3, 10.50m),
+            new OrderItemsDto("SKU002", 2, 15.75m)
         };
         var request = new CreateOrderRequest(customerId, items);
 
-        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<double>()))
+        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<decimal>()))
             .Returns("MEDIUM");
         _mockWriteOrdersDb.Setup(x => x.CreateOrder(It.IsAny<OrderTable>()))
             .ReturnsAsync(1);
@@ -91,8 +91,8 @@ public class CreateOrderRequestHandlerTests
         _mockWriteOrdersDb.Verify(
             x => x.CreateOrder(It.Is<OrderTable>(o => 
                 o.Items.Length == 2 &&
-                o.Items[0].Sku == "SKU001" && o.Items[0].Quantity == 3 && o.Items[0].Price == 10.50 &&
-                o.Items[1].Sku == "SKU002" && o.Items[1].Quantity == 2 && o.Items[1].Price == 15.75)),
+                o.Items[0].Sku == "SKU001" && o.Items[0].Quantity == 3 && o.Items[0].Price == 10.50m &&
+                o.Items[1].Sku == "SKU002" && o.Items[1].Quantity == 2 && o.Items[1].Price == 15.75m)),
             Times.Once);
     }
 
@@ -103,11 +103,11 @@ public class CreateOrderRequestHandlerTests
         const string customerId = "CUST456";
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 1, 25.00)
+            new OrderItemsDto("SKU001", 1, 25.00m)
         };
         var request = new CreateOrderRequest(customerId, items);
 
-        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<double>()))
+        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<decimal>()))
             .Returns("LOW");
         _mockWriteOrdersDb.Setup(x => x.CreateOrder(It.IsAny<OrderTable>()))
             .ReturnsAsync(1);
@@ -122,7 +122,7 @@ public class CreateOrderRequestHandlerTests
                 o.Items.Length == 1 &&
                 o.Items[0].Sku == "SKU001" &&
                 o.Items[0].Quantity == 1 &&
-                o.Items[0].Price == 25.00 &&
+                o.Items[0].Price == 25.00m &&
                 o.Classification == "LOW")),
             Times.Once);
     }
@@ -134,10 +134,10 @@ public class CreateOrderRequestHandlerTests
         const string customerId = "CUST789";
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 2, 50.00)
+            new OrderItemsDto("SKU001", 2, 50.00m)
         };
         var request = new CreateOrderRequest(customerId, items);
-        const double expectedTotal = 100.00;
+        const decimal expectedTotal = 100.00m;
 
         _mockClassificationHelper.Setup(x => x.GetOrderClassification(expectedTotal))
             .Returns("HIGH");
@@ -156,10 +156,10 @@ public class CreateOrderRequestHandlerTests
     {
         // Arrange
         const string customerId = "CUST123";
-        var items = new[] { new OrderItemsDto("SKU001", 1, 25.00) };
+        var items = new[] { new OrderItemsDto("SKU001", 1, 25.00m) };
         var request = new CreateOrderRequest(customerId, items);
 
-        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<double>()))
+        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<decimal>()))
             .Returns("LOW");
         _mockWriteOrdersDb.Setup(x => x.CreateOrder(It.IsAny<OrderTable>()))
             .ThrowsAsync(new InvalidOperationException("Database error"));
@@ -178,13 +178,13 @@ public class CreateOrderRequestHandlerTests
         const string customerId = "CUST999";
         var items = new[]
         {
-            new OrderItemsDto("SKU001", 1, 10.00),
-            new OrderItemsDto("SKU002", 2, 20.00),
-            new OrderItemsDto("SKU003", 3, 30.00)
+            new OrderItemsDto("SKU001", 1, 10.00m),
+            new OrderItemsDto("SKU002", 2, 20.00m),
+            new OrderItemsDto("SKU003", 3, 30.00m)
         };
         var request = new CreateOrderRequest(customerId, items);
 
-        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<double>()))
+        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<decimal>()))
             .Returns("HIGH");
         _mockWriteOrdersDb.Setup(x => x.CreateOrder(It.IsAny<OrderTable>()))
             .ReturnsAsync(1);
@@ -207,10 +207,10 @@ public class CreateOrderRequestHandlerTests
     {
         // Arrange
         const string customerId = "CUST123";
-        var items = new[] { new OrderItemsDto("SKU001", 1, 25.00) };
+        var items = new[] { new OrderItemsDto("SKU001", 1, 25.00m) };
         var request = new CreateOrderRequest(customerId, items);
 
-        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<double>()))
+        _mockClassificationHelper.Setup(x => x.GetOrderClassification(It.IsAny<decimal>()))
             .Returns("LOW");
         _mockWriteOrdersDb.Setup(x => x.CreateOrder(It.IsAny<OrderTable>()))
             .ReturnsAsync(42);

@@ -6,4 +6,4 @@ namespace OrderApp.Api.Responses;
 /// <param name="OrderId">The order identifier.</param>
 /// <param name="Total">The total cost of the order.</param>
 /// <param name="Classification">The classification of the order.</param>
-public sealed record CreateOrderResponse(string? OrderId = null, double? Total = null, string? Classification = null);
+public sealed record CreateOrderResponse(string? OrderId = null, decimal? Total = null, string? Classification = null);

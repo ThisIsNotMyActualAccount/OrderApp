@@ -18,5 +18,5 @@ public class OrderItemsTable
     /// <summary>
     /// The price of a single item.
     /// </summary>
-    public required double Price { get; set; }
+    public required decimal Price { get; set; }
 }

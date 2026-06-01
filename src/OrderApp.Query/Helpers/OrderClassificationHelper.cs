@@ -15,16 +15,16 @@ public class OrderClassificationHelper(IOptions<OrderClassificationConfiguration
     /// </summary>
     private static readonly List<OrderClassificationTier> DefaultTiers =
     [
-        new() { MinimumAmount = 0,   MaximumAmount = 49.99, Classification = "LOW" },
+        new() { MinimumAmount = 0,   MaximumAmount = 49.99M, Classification = "LOW" },
         new() { MinimumAmount = 50,  MaximumAmount = 100, Classification = "MEDIUM" },
-        new() { MinimumAmount = 100.01, MaximumAmount = null,  Classification = "HIGH" },
+        new() { MinimumAmount = 100.01M, MaximumAmount = null,  Classification = "HIGH" },
     ];
     
     private readonly List<OrderClassificationTier> validTiers = IsValidConfig(orderClassificationConfiguration.Value)
         ? orderClassificationConfiguration.Value.Tiers
         : DefaultTiers;
     
-    public string GetOrderClassification(double orderTotal)
+    public string GetOrderClassification(decimal orderTotal)
     {
         var tier = validTiers.FirstOrDefault(orderClassificationTier =>
             orderTotal >= orderClassificationTier.MinimumAmount &&

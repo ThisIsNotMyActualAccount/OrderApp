@@ -17,4 +17,4 @@ public sealed record OrderItemsDto(
     int Quantity,
     
     [Required(ErrorMessage = "Price is required.")]
-    double Price);
+    decimal Price);
